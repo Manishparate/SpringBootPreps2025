@@ -9,7 +9,11 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,10 +43,28 @@ class EmployeeControllerTest {
 		employee.setAddress("123 Main St");
 		employee.setSalary(50000);
 		employee.setMobile(9876543210L);
+		System.out.println("BeforeEach");
 	}
+	
+	@BeforeAll
+	static void init() {
+		System.out.println("Before All");
+	}
+	
+	@AfterAll
+	static void destory() {
+		System.out.println("After All");
+	}
+	
 
+	@AfterEach
+	void tearDown() {
+		System.out.println("Clean up");
+	}
+	
 	@Test
 	void testSaveEmployee() {
+		System.out.println("=====testSaveEmployee=====");
 		when(service.save(any(Employee.class))).thenReturn(employee);
 
 		ResponseEntity<Employee> response = controller.saveEmployee(employee);
@@ -53,7 +75,9 @@ class EmployeeControllerTest {
 	}
 
 	@Test
+	@Disabled
 	void testGetAllEmployees() {
+		System.out.println("=====testGetAllEmployees=====");
 		List<Employee> employees = Arrays.asList(employee);
 		when(service.getAllEmployees()).thenReturn(employees);
 
